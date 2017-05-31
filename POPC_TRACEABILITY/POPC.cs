@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using XS156Client35;
 using XS156Client35.Models;
@@ -15,10 +9,10 @@ namespace POPC_TRACEABILITY
     public partial class POPC : Form
     {
         public  PLC M221Plc;
-        public XS156Client35.IXs156Client Xs156Client;
+        public IXs156Client Xs156Client;
 
-        private Color OnColor = Color.Yellow;
-        private Color OffColor = Color.YellowGreen;
+        private readonly Color _onColor = Color.Yellow;
+        private readonly Color _offColor = Color.YellowGreen;
 
         private string _plcIpAddress;
         private ushort _plcPort;
@@ -103,7 +97,7 @@ namespace POPC_TRACEABILITY
 
         private void trackingBagHandler(TrackingDataBag data)
         {
-            chb_Traceability.BackColor = chb_Traceability.BackColor == OnColor ? OffColor : OnColor;
+            chb_Traceability.BackColor = chb_Traceability.BackColor == _onColor ? _offColor : _onColor;
             lbl_Processable.Text = data.ProcessableQuantity.ToString("000");
             if (M221Plc != null)
             {
@@ -150,7 +144,7 @@ namespace POPC_TRACEABILITY
 
         private void M221_Dataupdated()
         {
-            chb_Plc.BackColor = chb_Plc.BackColor == OnColor ? OffColor : OnColor;
+            chb_Plc.BackColor = chb_Plc.BackColor == _onColor ? _offColor : _onColor;
         }
 
         private void btn_Setting_Click(object sender, EventArgs e)
@@ -176,13 +170,53 @@ namespace POPC_TRACEABILITY
         private void btn_Reload_Click(object sender, EventArgs e)
         {
             M221Plc?.ResetSequence();
-            ResetEvent();
-            LoadAll();
+           // ResetEvent();
+           // LoadAll();
         }
 
         private void tableLayoutPanel2_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        private void btnLoadOrderNumber_Click(object sender, EventArgs e)
+        {
+            using (var frm = new OpenProcessList())
+            {
+                Xs156Client.GetOpenProcess();
+                int i;
+                for (i = 0; i < Xs156Client.GetOpenProcessCount(); i++)
+                {
+                    frm.DgvList.Rows.Add(new object[]
+                        {
+                            Xs156Client.CurrentOpenProcess().OrderNumber,
+                            Xs156Client.CurrentOpenProcess().CurrentReferenceName,
+                            Xs156Client.CurrentOpenProcess().StartDateTime
+                        }
+                    );
+
+                    Xs156Client.OpenProcessNext();
+                }
+
+                frm.ShowDialog();
+               
+
+                if (frm.LoadNew)
+                {
+                    var ask = MessageBox.Show(@"Yakin load order number " + frm.SelectedOrderNumber + @" ?", @"Traceability", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                    if (ask != DialogResult.OK) return;
+                    try
+                    {
+                        Xs156Client.LoadByOrderNumber(frm.SelectedOrderNumber);
+                        Xs156Client.StartUpdater();
+                    }
+                    catch (Exception exception)
+                    {
+                        MessageBox.Show(exception.Message, @"Traceability");
+                       
+                    }
+                }
+            }
         }
     }
 }

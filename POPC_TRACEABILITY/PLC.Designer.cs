@@ -36,11 +36,11 @@
             this.chb_PoPcOk = new System.Windows.Forms.CheckBox();
             this.chb_PassButton = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.chb_IndicatorLampRed = new System.Windows.Forms.CheckBox();
+            this.chb_IndicatorLampGreen = new System.Windows.Forms.CheckBox();
             this.chb_IndicatorLamp = new System.Windows.Forms.CheckBox();
             this.tmr_DisplayUpdate = new System.Windows.Forms.Timer(this.components);
             this.tmr_Scanner = new System.Windows.Forms.Timer(this.components);
-            this.chb_IndicatorLampGreen = new System.Windows.Forms.CheckBox();
-            this.chb_IndicatorLampRed = new System.Windows.Forms.CheckBox();
             this.gb_Input.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -121,28 +121,18 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "OUTPUT";
             // 
-            // chb_IndicatorLamp
+            // chb_IndicatorLampRed
             // 
-            this.chb_IndicatorLamp.Appearance = System.Windows.Forms.Appearance.Button;
-            this.chb_IndicatorLamp.AutoSize = true;
-            this.chb_IndicatorLamp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.chb_IndicatorLamp.Location = new System.Drawing.Point(16, 19);
-            this.chb_IndicatorLamp.Name = "chb_IndicatorLamp";
-            this.chb_IndicatorLamp.Size = new System.Drawing.Size(87, 23);
-            this.chb_IndicatorLamp.TabIndex = 0;
-            this.chb_IndicatorLamp.Text = "Indicator Lamp";
-            this.chb_IndicatorLamp.UseVisualStyleBackColor = true;
-            this.chb_IndicatorLamp.CheckedChanged += new System.EventHandler(this.chb_IndicatorLamp_CheckedChanged);
-            // 
-            // tmr_DisplayUpdate
-            // 
-            this.tmr_DisplayUpdate.Enabled = true;
-            this.tmr_DisplayUpdate.Interval = 750;
-            this.tmr_DisplayUpdate.Tick += new System.EventHandler(this.tmr_DisplayUpdate_Tick);
-            // 
-            // tmr_Scanner
-            // 
-            this.tmr_Scanner.Tick += new System.EventHandler(this.tmr_Scanner_Tick);
+            this.chb_IndicatorLampRed.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chb_IndicatorLampRed.AutoSize = true;
+            this.chb_IndicatorLampRed.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.chb_IndicatorLampRed.Location = new System.Drawing.Point(16, 77);
+            this.chb_IndicatorLampRed.Name = "chb_IndicatorLampRed";
+            this.chb_IndicatorLampRed.Size = new System.Drawing.Size(66, 23);
+            this.chb_IndicatorLampRed.TabIndex = 0;
+            this.chb_IndicatorLampRed.Text = "Red Lamp";
+            this.chb_IndicatorLampRed.UseVisualStyleBackColor = true;
+            this.chb_IndicatorLampRed.CheckedChanged += new System.EventHandler(this.chb_IndicatorLampRed_CheckedChanged);
             // 
             // chb_IndicatorLampGreen
             // 
@@ -157,18 +147,28 @@
             this.chb_IndicatorLampGreen.UseVisualStyleBackColor = true;
             this.chb_IndicatorLampGreen.CheckedChanged += new System.EventHandler(this.chb_IndicatorLampGreen_CheckedChanged);
             // 
-            // chb_IndicatorLampRed
+            // chb_IndicatorLamp
             // 
-            this.chb_IndicatorLampRed.Appearance = System.Windows.Forms.Appearance.Button;
-            this.chb_IndicatorLampRed.AutoSize = true;
-            this.chb_IndicatorLampRed.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.chb_IndicatorLampRed.Location = new System.Drawing.Point(16, 77);
-            this.chb_IndicatorLampRed.Name = "chb_IndicatorLampRed";
-            this.chb_IndicatorLampRed.Size = new System.Drawing.Size(66, 23);
-            this.chb_IndicatorLampRed.TabIndex = 0;
-            this.chb_IndicatorLampRed.Text = "Red Lamp";
-            this.chb_IndicatorLampRed.UseVisualStyleBackColor = true;
-            this.chb_IndicatorLampRed.CheckedChanged += new System.EventHandler(this.chb_IndicatorLampRed_CheckedChanged);
+            this.chb_IndicatorLamp.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chb_IndicatorLamp.AutoSize = true;
+            this.chb_IndicatorLamp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.chb_IndicatorLamp.Location = new System.Drawing.Point(16, 19);
+            this.chb_IndicatorLamp.Name = "chb_IndicatorLamp";
+            this.chb_IndicatorLamp.Size = new System.Drawing.Size(76, 23);
+            this.chb_IndicatorLamp.TabIndex = 0;
+            this.chb_IndicatorLamp.Text = "Amber Lamp";
+            this.chb_IndicatorLamp.UseVisualStyleBackColor = true;
+            this.chb_IndicatorLamp.CheckedChanged += new System.EventHandler(this.chb_IndicatorLamp_CheckedChanged);
+            // 
+            // tmr_DisplayUpdate
+            // 
+            this.tmr_DisplayUpdate.Enabled = true;
+            this.tmr_DisplayUpdate.Interval = 750;
+            this.tmr_DisplayUpdate.Tick += new System.EventHandler(this.tmr_DisplayUpdate_Tick);
+            // 
+            // tmr_Scanner
+            // 
+            this.tmr_Scanner.Tick += new System.EventHandler(this.tmr_Scanner_Tick);
             // 
             // PLC
             // 

@@ -46,6 +46,7 @@ namespace POPC_TRACEABILITY
         private void btn_Save_Click(object sender, EventArgs e)
         {
             SaveSetting();
+            Close();
         }
 
         private void Setting_Load(object sender, EventArgs e)

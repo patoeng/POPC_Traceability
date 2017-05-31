@@ -56,6 +56,9 @@
     <Compile Include="Delegates.cs" />
     <Compile Include="EquipmentState.cs" />
     <Compile Include="ModbusTcpHelper.cs" />
+    <Compile Include="OpenProcessList.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="PLC.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -79,6 +82,9 @@
       <DependentUpon>Setting.cs</DependentUpon>
     </Compile>
     <Compile Include="SettingHelper.cs" />
+    <EmbeddedResource Include="OpenProcessList.resx">
+      <DependentUpon>OpenProcessList.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="PLC.resx">
       <DependentUpon>PLC.cs</DependentUpon>
     </EmbeddedResource>
