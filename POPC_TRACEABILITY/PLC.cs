@@ -1,25 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using ModbusTCP;
 
 namespace POPC_TRACEABILITY
 {
-    public partial class PLC : Form
+    public partial class Plc : Form
     {
-
-        public PLC()
+        
+        public Plc()
         {
             InitializeComponent();
             PlcInitialization();
         }
-        public PLC(string ipAddress, ushort port, int interval)
+        public Plc(string ipAddress, ushort port, int interval)
         {
             InitializeComponent();
             IpAddress = ipAddress;
@@ -31,7 +25,9 @@ namespace POPC_TRACEABILITY
         public event NoParamDelegate DataUpdated;
         public event IntDelegate PoPcReadyForNewOrderNumber;
         public event IntDelegate OutputQtyChanged;
-        public event IntDelegate RejectQtyChanged; 
+        public event IntDelegate RejectQtyChanged;
+        public event PopcStateChanged PopcStateChangedEvent;
+
 
         private int[] _data;
         private Master _master;
@@ -52,17 +48,32 @@ namespace POPC_TRACEABILITY
         public int QuantityFail { get; protected set; }
         public int QuantityProccessable { get; protected set; }
 
-        private Color OnColor = Color.Yellow;
-        private Color OffColor = Color.YellowGreen;
+        private PopcStates _popcStates;
+
+        public PopcStates PopcStates
+        {
+            get { return _popcStates; }
+            protected set
+            {
+                if (value != _popcStates)
+                {
+                    _popcStates = value;
+                    PopcStateChangedEvent?.Invoke(_popcStates);
+                }
+            }
+        }
+
+        private readonly Color _onColor = Color.Yellow;
+        private readonly Color _offColor = Color.YellowGreen;
 
         private void UpdateDisplay()
         {
             
-            chb_PassButton.BackColor = PassPushButton ? OnColor : OffColor;
-            chb_PoPcOk.BackColor = PoPcTestOk ? OnColor : OffColor;
-            chb_IndicatorLamp.BackColor = IndicatorLamp1 ? OnColor : OffColor;
-            chb_IndicatorLampGreen.BackColor = IndicatorLampGreen ? OnColor : OffColor;
-            chb_IndicatorLampRed.BackColor = IndicatorLampRed ? OnColor : OffColor;
+            chb_PassButton.BackColor = PassPushButton ? _onColor : _offColor;
+            chb_PoPcOk.BackColor = PoPcTestOk ? _onColor : _offColor;
+            chb_IndicatorLamp.BackColor = IndicatorLamp1 ? _onColor : _offColor;
+            chb_IndicatorLampGreen.BackColor = IndicatorLampGreen ? _onColor : _offColor;
+            chb_IndicatorLampRed.BackColor = IndicatorLampRed ? _onColor : _offColor;
         }
 
         public void SetIpAddress(string ipAddress)
@@ -97,7 +108,7 @@ namespace POPC_TRACEABILITY
             tmr_Scanner.Stop();
             try
             {
-                byte[] temp = new byte[] { };
+                byte[] temp = { };
                 PlcCommand.GetPlcRawData(_master, 25, ref temp);
                 _data = ModbusTcpHelper.ByteArrayToWordArray(temp);
                 MemoryMapping(_data);
@@ -111,6 +122,7 @@ namespace POPC_TRACEABILITY
 
         private void MemoryMapping(int[] data)
         {
+            PopcStates = (PopcStates) data[0];
             LoadPoPcNewOrderNumber(data[2]);
             LoadOutput(data[4]);
             LoadFail(data[6]);
@@ -180,6 +192,11 @@ namespace POPC_TRACEABILITY
         public void ResetSequence()
         {
             PlcCommand.ResetSequence(_master);
+        }
+
+        public void SetPoPcState(PopcStates states)
+        {
+            PlcCommand.SetPoPcState(_master,states);
         }
         public void SetQuantityOutput(int value)
         {

@@ -16,7 +16,7 @@ namespace POPC_TRACEABILITY
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new POPC());
+            Application.Run(new Popc());
         }
     }
 }

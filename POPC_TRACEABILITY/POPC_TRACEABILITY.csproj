@@ -73,6 +73,7 @@
     <Compile Include="POPC.Designer.cs">
       <DependentUpon>POPC.cs</DependentUpon>
     </Compile>
+    <Compile Include="PopcStates.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Setting.cs">

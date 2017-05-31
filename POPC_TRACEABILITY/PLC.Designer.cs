@@ -1,6 +1,6 @@
 ﻿namespace POPC_TRACEABILITY
 {
-    partial class PLC
+    partial class Plc
     {
         /// <summary>
         /// Required designer variable.
@@ -180,7 +180,7 @@
             this.Controls.Add(this.lbl_Port);
             this.Controls.Add(this.lbl_IpAddress);
             this.Controls.Add(this.label1);
-            this.Name = "PLC";
+            this.Name = "Plc";
             this.Text = "PLC";
             this.Load += new System.EventHandler(this.PLC_Load);
             this.VisibleChanged += new System.EventHandler(this.PLC_VisibleChanged);

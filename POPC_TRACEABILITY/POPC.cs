@@ -6,9 +6,9 @@ using XS156Client35.Models;
 
 namespace POPC_TRACEABILITY
 {
-    public partial class POPC : Form
+    public partial class Popc : Form
     {
-        public  PLC M221Plc;
+        public  Plc M221Plc;
         public IXs156Client Xs156Client;
 
         private readonly Color _onColor = Color.Yellow;
@@ -17,10 +17,10 @@ namespace POPC_TRACEABILITY
         private string _plcIpAddress;
         private ushort _plcPort;
         private int _plcTickerInterval;
+        private readonly Xs156Setting _setting = new Xs156Setting();
 
 
-     
-        public POPC()
+        public Popc()
         {
             InitializeComponent();
             LoadAll();
@@ -42,6 +42,7 @@ namespace POPC_TRACEABILITY
                 M221Plc.OutputQtyChanged -= M221Plc_OutputQtyChanged;
                 M221Plc.RejectQtyChanged -= M221Plc_RejectQtyChanged;
                 M221Plc.PoPcReadyForNewOrderNumber -= M221Plc_ReadyNewOrderNumber;
+                M221Plc.PopcStateChangedEvent -= M221Plc_PopcStateChangedEvent;
                 M221Plc.Dispose();
                 M221Plc = null;
             }
@@ -54,17 +55,60 @@ namespace POPC_TRACEABILITY
                 Xs156Client = null;
             }
         }
+
+        private void M221Plc_PopcStateChangedEvent(PopcStates states)
+        {
+            switch (states)
+            {
+                case PopcStates.Idle:
+                    tbMessage.Text = @"Idle";
+                    break;
+                case PopcStates.WaitingForProcessable:
+                    tbMessage.Text = @"Menunggu Processable produk dari process sebelumnya." + "\r\n" +
+                                     @"Lepas kabel produk dari terminal jika ada.";
+                    break;
+                case PopcStates.WaitingForStartTestTimer:
+                    tbMessage.Text = @"Pasang kabel Produk," + "\r\n" + @"Tekan dan tahan tombol untuk mulai testing.";
+                    break;
+                case PopcStates.TestSequence1:
+                    tbMessage.Text = @"Test produk, dekatkan ke logam." + "\r\n" + @"Lepaskan tombol jika FAIL.";
+                    break;
+                case PopcStates.TestSequence2:
+                    tbMessage.Text = @"Test produk sekali lagi , dekatkan ke logam. " + "\r\n" +
+                                     @"Lepaskan tombol jika FAIL.";
+                    break;
+                case PopcStates.TestPass:
+                    tbMessage.Text = @"Test produk PASS." + "\r\n" + @"Lepaskan tombol. Lepaskan kabel produk ";
+                    break;
+                case PopcStates.TestFailNeedRetry:
+                    btnTestLagi.Visible = true;
+                    tbMessage.Text = @"Test produk FAIL.Tekan tombol sekali jika benar FAIL," + "\r\n" + @" atau tekan tombol TEST LAGI untuk test ulang.";
+                    break;
+                case PopcStates.TestFailConfirmed:
+                    tbMessage.Text = @"Test produk FAIL. Terkonfirmasi. ";
+                    break;
+                case PopcStates.Done:
+                    tbMessage.Text = @"Lepaskan kabel produk. ";
+                    break;
+            }
+            if (states != PopcStates.TestFailNeedRetry)
+            {
+                btnTestLagi.Visible = false;
+            }
+        }
+
         private void LoadAll()
         {
             LoadSetting();
 
             if (M221Plc == null)
             {
-                M221Plc = new PLC(_plcIpAddress,_plcPort,_plcTickerInterval);
+                M221Plc = new Plc(_plcIpAddress,_plcPort,_plcTickerInterval);
                 M221Plc.DataUpdated += M221_Dataupdated;
                 M221Plc.OutputQtyChanged += M221Plc_OutputQtyChanged;
                 M221Plc.RejectQtyChanged += M221Plc_RejectQtyChanged;
                 M221Plc.PoPcReadyForNewOrderNumber += M221Plc_ReadyNewOrderNumber;
+                M221Plc.PopcStateChangedEvent += M221Plc_PopcStateChangedEvent;
                 M221Plc.StartTicker();
             }
 
@@ -75,6 +119,13 @@ namespace POPC_TRACEABILITY
                 Xs156Client.TrackingDataBagUpdatedEvent += XS156_TrackingUpdated;
                 Xs156Client.TrackingReferenceNewlyLoaded += XS156_NewLoadExist;
                 Xs156Client.ExceptionEvent += Xs156Exception;
+
+             
+                if (_setting.GetBufferingMode()&& lbl_Reference.Text.Contains(@"XS"))
+                {
+                    Xs156Client.LoadByOrderNumber(lbl_OrderNumber.Text);
+                }
+
                 Xs156Client.StartUpdater();
             }
         }
@@ -121,6 +172,7 @@ namespace POPC_TRACEABILITY
         private bool _afterReload;
         private void M221Plc_ReadyNewOrderNumber(int data)
         {
+            if (_setting.GetBufferingMode()) return;
             Xs156Client.StopUpdater();
             Xs156Client.Reload();
             _afterReload = true;
@@ -170,8 +222,8 @@ namespace POPC_TRACEABILITY
         private void btn_Reload_Click(object sender, EventArgs e)
         {
             M221Plc?.ResetSequence();
-           // ResetEvent();
-           // LoadAll();
+            ResetEvent();
+            LoadAll();
         }
 
         private void tableLayoutPanel2_Paint(object sender, PaintEventArgs e)
@@ -209,6 +261,7 @@ namespace POPC_TRACEABILITY
                     {
                         Xs156Client.LoadByOrderNumber(frm.SelectedOrderNumber);
                         Xs156Client.StartUpdater();
+                        M221Plc.SetPoPcState(PopcStates.Idle);
                     }
                     catch (Exception exception)
                     {
@@ -217,6 +270,12 @@ namespace POPC_TRACEABILITY
                     }
                 }
             }
+        }
+
+        private void btnTestLagi_Click(object sender, EventArgs e)
+        {
+            M221Plc.SetPoPcState(PopcStates.WaitingForStartTestTimer);
+            btnTestLagi.Visible = false;
         }
     }
 }
