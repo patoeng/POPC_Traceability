@@ -40,6 +40,7 @@
             this.btn_Debug = new System.Windows.Forms.Button();
             this.btn_Setting = new System.Windows.Forms.Button();
             this.panel4 = new System.Windows.Forms.Panel();
+            this.btnTestLagi = new System.Windows.Forms.Button();
             this.chb_Traceability = new System.Windows.Forms.CheckBox();
             this.chb_Plc = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
@@ -61,7 +62,7 @@
             this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
             this.panel8 = new System.Windows.Forms.Panel();
             this.tbMessage = new System.Windows.Forms.TextBox();
-            this.btnTestLagi = new System.Windows.Forms.Button();
+            this.btnTestAll = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -218,6 +219,7 @@
             // panel4
             // 
             this.panel4.BackColor = System.Drawing.Color.DarkGreen;
+            this.panel4.Controls.Add(this.btnTestAll);
             this.panel4.Controls.Add(this.btnTestLagi);
             this.panel4.Controls.Add(this.chb_Traceability);
             this.panel4.Controls.Add(this.chb_Plc);
@@ -226,6 +228,19 @@
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(439, 75);
             this.panel4.TabIndex = 2;
+            // 
+            // btnTestLagi
+            // 
+            this.btnTestLagi.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.btnTestLagi.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnTestLagi.Location = new System.Drawing.Point(345, 5);
+            this.btnTestLagi.Name = "btnTestLagi";
+            this.btnTestLagi.Size = new System.Drawing.Size(90, 61);
+            this.btnTestLagi.TabIndex = 3;
+            this.btnTestLagi.Text = "TEST LAGI";
+            this.btnTestLagi.UseVisualStyleBackColor = false;
+            this.btnTestLagi.Visible = false;
+            this.btnTestLagi.Click += new System.EventHandler(this.btnTestLagi_Click);
             // 
             // chb_Traceability
             // 
@@ -258,7 +273,7 @@
             this.tableLayoutPanel4.ColumnCount = 3;
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 156F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 157F));
             this.tableLayoutPanel4.Controls.Add(this.panel5, 0, 0);
             this.tableLayoutPanel4.Controls.Add(this.panel6, 1, 0);
             this.tableLayoutPanel4.Controls.Add(this.panel7, 2, 0);
@@ -468,18 +483,17 @@
             this.tbMessage.TabIndex = 0;
             this.tbMessage.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // btnTestLagi
+            // btnTestAll
             // 
-            this.btnTestLagi.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-            this.btnTestLagi.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnTestLagi.Location = new System.Drawing.Point(344, 6);
-            this.btnTestLagi.Name = "btnTestLagi";
-            this.btnTestLagi.Size = new System.Drawing.Size(90, 61);
-            this.btnTestLagi.TabIndex = 3;
-            this.btnTestLagi.Text = "TEST LAGI";
-            this.btnTestLagi.UseVisualStyleBackColor = false;
-            this.btnTestLagi.Visible = false;
-            this.btnTestLagi.Click += new System.EventHandler(this.btnTestLagi_Click);
+            this.btnTestAll.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.btnTestAll.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnTestAll.Location = new System.Drawing.Point(176, 6);
+            this.btnTestAll.Name = "btnTestAll";
+            this.btnTestAll.Size = new System.Drawing.Size(164, 61);
+            this.btnTestAll.TabIndex = 4;
+            this.btnTestAll.Text = "RETEST SEMUA REJECT";
+            this.btnTestAll.UseVisualStyleBackColor = false;
+            this.btnTestAll.Click += new System.EventHandler(this.button1_Click);
             // 
             // Popc
             // 
@@ -552,6 +566,7 @@
         private System.Windows.Forms.Panel panel8;
         private System.Windows.Forms.TextBox tbMessage;
         private System.Windows.Forms.Button btnTestLagi;
+        private System.Windows.Forms.Button btnTestAll;
     }
 }
 

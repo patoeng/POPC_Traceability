@@ -80,5 +80,10 @@ namespace POPC_TRACEABILITY
         {
             SetCreateSetting("PlcPort", value.ToString());
         }
+
+        public static string GetPassword()
+        {
+            return (string)GetCreateSetting("Key", "PoPcAdmin");
+        }
     }
 }

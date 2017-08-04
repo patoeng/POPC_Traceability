@@ -85,9 +85,10 @@ namespace POPC_TRACEABILITY
             this._btnLoadOrderNumber.TabIndex = 5;
             this._btnLoadOrderNumber.Text = "Load Order Number";
             this._btnLoadOrderNumber.UseVisualStyleBackColor = true;
+            this._btnLoadOrderNumber.Visible = false;
             this._btnLoadOrderNumber.Click += new System.EventHandler(this.btnLoadOrderNumber_Click);
             // 
-            // label1
+            // _label1
             // 
             this._label1.AutoSize = true;
             this._label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
